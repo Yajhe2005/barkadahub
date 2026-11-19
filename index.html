@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BarkadaHub</title>
+
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/pages.css">
+<link rel="stylesheet" href="css/games.css">
+</head>
+<body>
+
+<!-- ════════════ LOGIN PAGE ════════════ -->
+<div id="page-login" class="page active">
+  <div class="login-bg"></div>
+  <div class="login-grid"></div>
+  <div class="login-card">
+    <div class="login-logo">Barkada<span>Hub</span></div>
+    <div class="login-tagline">your barkada's all-in-one college toolkit 🎓</div>
+    <div id="login-error" class="login-error">Wrong username or password. Try again!</div>
+    <label class="login-label">Username</label>
+    <input id="login-user" class="login-input" type="text" placeholder="e.g. kuya_marc" autocomplete="off">
+    <label class="login-label">Password</label>
+    <input id="login-pass" class="login-input" type="password" placeholder="••••••••">
+    <button class="login-btn" onclick="doLogin()">Enter the Hub →</button>
+    <div class="login-hint">
+      Demo: username <strong>barkada</strong> / password <strong>1234</strong>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ HOME PAGE ════════════ -->
+<div id="page-home" class="page">
+  <nav class="nav">
+    <div class="nav-logo">Barkada<span>Hub</span></div>
+    <div class="nav-user">
+      <div class="nav-avatar" id="nav-avatar">BH</div>
+      <span id="nav-username">barkada</span>
+      <button class="nav-logout" onclick="doLogout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="home-hero">
+    <div class="home-greeting">kamusta barkada! 👋</div>
+    <div class="home-title">What do you want to<br><span>do today?</span></div>
+    <div class="home-sub">Pick a tool below. Everything you need as a college student, in one place.</div>
+  </div>
+
+  <div class="section-divider">📚 Study Tools</div>
+  <div class="tools-grid">
+    <div class="tool-card" style="--card-accent:#f5c842" onclick="goTo('pomodoro')">
+      <span class="tool-icon">⏱️</span>
+      <div class="tool-name">Focus Timer</div>
+      <div class="tool-desc">Pomodoro or Flowtime — choose your study style and beat procrastination.</div>
+      <span class="tool-tag">Study</span>
+    </div>
+    <div class="tool-card" style="--card-accent:#6bffb8" onclick="goTo('grades')">
+      <span class="tool-icon">📊</span>
+      <div class="tool-name">Grade Calculator</div>
+      <div class="tool-desc">Compute your weighted average and see if you pass or not (no judgment).</div>
+      <span class="tool-tag">Grades</span>
+    </div>
+  </div>
+
+  <div class="section-divider">🎲 Decision Tools</div>
+  <div class="tools-grid">
+    <div class="tool-card" style="--card-accent:#ff6b6b" onclick="goTo('cards')">
+      <span class="tool-icon">🃏</span>
+      <div class="tool-name">Random Picker</div>
+      <div class="tool-desc">Can't decide where to eat or what to do? Let the cards decide for your barkada.</div>
+      <span class="tool-tag">Decisions</span>
+    </div>
+    <div class="tool-card" style="--card-accent:#6bffb8" onclick="goTo('decision')">
+      <span class="tool-icon">🪙</span>
+      <div class="tool-name">Coin Flip & Yes/No</div>
+      <div class="tool-desc">Flip a coin or get a yes/no answer when you and your friends can't agree.</div>
+      <span class="tool-tag">Decisions</span>
+    </div>
+  </div>
+
+  <div class="section-divider">👥 Barkada Tools</div>
+  <div class="tools-grid">
+    <div class="tool-card" style="--card-accent:#6bb5ff" onclick="goTo('groups')">
+      <span class="tool-icon">🔀</span>
+      <div class="tool-name">Random Groups</div>
+      <div class="tool-desc">Split your barkada into random teams for projects, games, or anything.</div>
+      <span class="tool-tag">Group</span>
+    </div>
+    <div class="tool-card" style="--card-accent:#f5c842" onclick="goTo('expenses')">
+      <span class="tool-icon">💸</span>
+      <div class="tool-name">Expense Splitter</div>
+      <div class="tool-desc">Track what you spent and split the bill equally — no more utang drama.</div>
+      <span class="tool-tag">Finance</span>
+    </div>
+  </div>
+
+  <div class="section-divider">🎮 Mini Games</div>
+  <div class="tools-grid">
+    <div class="tool-card" style="--card-accent:#6bffb8" onclick="goTo('wordblitz')">
+      <span class="tool-icon">⌨️</span>
+      <div class="tool-name">Word Blitz</div>
+      <div class="tool-desc">Type falling words before they hit the ground. Race against the barkada!</div>
+      <span class="tool-tag">Game</span>
+    </div>
+    <div class="tool-card" style="--card-accent:#6bb5ff" onclick="initMemory();goTo('memory')">
+      <span class="tool-icon">🧠</span>
+      <div class="tool-name">Memory Match</div>
+      <div class="tool-desc">Flip cards and find all matching pairs. Train that college brain!</div>
+      <span class="tool-tag">Game</span>
+    </div>
+  </div>
+
+  <div class="section-divider">📅 Planning</div>
+  <div class="tools-grid" style="margin-bottom:60px">
+    <div class="tool-card" style="--card-accent:#c084fc" onclick="goTo('calendar')">
+      <span class="tool-icon">📅</span>
+      <div class="tool-name">Shared Calendar</div>
+      <div class="tool-desc">Add deadlines, exams, and barkada events. Stay on top of everything together.</div>
+      <span class="tool-tag">Planning</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ FOCUS TIMER PAGE (Pomodoro + Flowtime) ════════════ -->
+<div id="page-pomodoro" class="page">
+  <nav class="nav">
+    <button class="nav-back" onclick="resetPomo();goTo('home')">← Back</button>
+    <div class="nav-title">⏱️ Focus Timer</div>
+    <div class="nav-user">
+      <div class="nav-avatar" id="nav-avatar2">BH</div>
+    </div>
+  </nav>
+  <div class="inner-content">
+    <div class="inner-header">
+      <h2>Focus Mode</h2>
+      <p>Choose Pomodoro for structured sprints, or Flowtime to go at your own pace.</p>
+    </div>
+
+    <!-- Timer type switcher -->
+    <div class="pomo-wrap">
+      <div class="pomo-type-tabs">
+        <button class="pomo-type-tab active" id="tab-pomodoro" onclick="switchTimerType('pomodoro')">🍅 Pomodoro</button>
+        <button class="pomo-type-tab" id="tab-flowtime" onclick="switchTimerType('flowtime')">🌊 Flowtime</button>
+      </div>
+
+      <!-- ── POMODORO PANEL ── -->
+      <div id="panel-pomodoro" class="timer-panel active">
+        <div class="pomo-mode-tabs">
+          <button class="pomo-tab active" onclick="setPomoMode(25,'Focus',this)">Focus</button>
+          <button class="pomo-tab" onclick="setPomoMode(5,'Short Break',this)">Short Break</button>
+          <button class="pomo-tab" onclick="setPomoMode(15,'Long Break',this)">Long Break</button>
+        </div>
+
+        <div class="pomo-clock">
+          <svg class="pomo-svg" viewBox="0 0 220 220">
+            <circle class="pomo-track" cx="110" cy="110" r="105"/>
+            <circle class="pomo-progress" id="pomo-ring" cx="110" cy="110" r="105"/>
+          </svg>
+          <div class="pomo-time-display">
+            <div class="pomo-time" id="pomo-display">25:00</div>
+            <div class="pomo-label" id="pomo-mode-label">Focus</div>
+          </div>
+        </div>
+
+        <div class="pomo-controls">
+          <button class="pomo-btn primary" id="pomo-start-btn" onclick="togglePomo()">Start</button>
+          <button class="pomo-btn secondary" onclick="resetPomo()">Reset</button>
+        </div>
+
+        <div class="pomo-session-info">
+          <div class="pomo-stat">
+            <div class="pomo-stat-val" id="pomo-completed">0</div>
+            <div class="pomo-stat-label">Sessions Done</div>
+          </div>
+          <div class="pomo-stat">
+            <div class="pomo-stat-val" id="pomo-minutes">0</div>
+            <div class="pomo-stat-label">Minutes Focused</div>
+          </div>
+          <div class="pomo-stat">
+            <div class="pomo-stat-val" id="pomo-streak">🔥 0</div>
+            <div class="pomo-stat-label">Streak Today</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── FLOWTIME PANEL ── -->
+      <div id="panel-flowtime" class="timer-panel">
+        <div class="flow-explainer">
+          <div class="flow-explainer-icon">🌊</div>
+          <div>
+            <strong>Flowtime Method</strong>
+            <p>Work without a fixed timer. When you stop, it suggests a break proportional to how long you worked.</p>
+          </div>
+        </div>
+
+        <div class="flow-clock-wrap">
+          <div class="pomo-clock">
+            <svg class="pomo-svg" viewBox="0 0 220 220">
+              <circle class="pomo-track" cx="110" cy="110" r="105"/>
+              <circle class="pomo-progress" id="flow-ring" cx="110" cy="110" r="105" style="stroke:var(--accent4)"/>
+            </svg>
+            <div class="pomo-time-display">
+              <div class="pomo-time" id="flow-display" style="color:var(--accent4)">00:00</div>
+              <div class="pomo-label" id="flow-status-label">Ready</div>
+            </div>
+          </div>
+
+          <div class="flow-phase-badge" id="flow-phase-badge">Work</div>
+        </div>
+
+        <div class="flow-suggestion" id="flow-suggestion" style="display:none">
+          <span class="flow-suggestion-icon">💡</span>
+          <span id="flow-suggestion-text">Take a break!</span>
+        </div>
+
+        <div class="pomo-controls">
+          <button class="pomo-btn primary" id="flow-btn" onclick="toggleFlow()" style="background:var(--accent4);color:#0d0d0f">Start Working</button>
+          <button class="pomo-btn secondary" onclick="resetFlow()">Reset</button>
+        </div>
+
+        <div class="pomo-session-info">
+          <div class="pomo-stat">
+            <div class="pomo-stat-val" id="flow-sessions">0</div>
+            <div class="pomo-stat-label">Sessions</div>
+          </div>
+          <div class="pomo-stat">
+            <div class="pomo-stat-val" id="flow-total-work">0m</div>
+            <div class="pomo-stat-label">Total Work</div>
+          </div>
+          <div class="pomo-stat">
+            <div class="pomo-stat-val" id="flow-total-break">0m</div>
+            <div class="pomo-stat-label">Total Break</div>
+          </div>
+        </div>
+
+        <div class="flow-log-wrap">
+          <div class="flow-log-title">Session Log</div>
+          <div class="flow-log" id="flow-log">
+            <div class="flow-log-empty">No sessions yet. Start working!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ CARD PICKER PAGE ════════════ -->
+<div id="page-cards" class="page">
+  <nav class="nav">
+    <button class="nav-back" onclick="goTo('home')">← Back</button>
+    <div class="nav-title">🃏 Random Picker</div>
+    <div class="nav-user"><div class="nav-avatar">BH</div></div>
+  </nav>
+  <div class="inner-content">
+    <div class="inner-header">
+      <h2>Pick for Me</h2>
+      <p>Choose a category or add your own options. The card decides!</p>
+    </div>
+    <div class="cards-wrap">
+      <div class="card-category-tabs">
+        <button class="cat-tab active" onclick="setCardCat('food',this)">🍽️ Food</button>
+        <button class="cat-tab" onclick="setCardCat('activity',this)">🎮 Activity</button>
+        <button class="cat-tab" onclick="setCardCat('study',this)">📚 Study Spot</button>
+        <button class="cat-tab" onclick="setCardCat('custom',this)">✏️ Custom</button>
+      </div>
+      <div class="card-display" id="card-display">
+        <div class="card-bg-glow"></div>
+        <div class="card-emoji" id="card-emoji">🎲</div>
+        <div class="card-text" id="card-text">Press the button to pick!</div>
+        <div class="card-sub" id="card-sub">tap below</div>
+      </div>
+      <button class="pick-btn" onclick="pickCard()">🎲 Pick One!</button>
+      <div class="custom-cards-section" id="custom-section" style="display:none">
+        <h4>Your Custom Options</h4>
+        <div class="custom-input-row">
+          <input class="custom-input" id="custom-input" placeholder="Type an option..." type="text" onkeydown="if(event.key==='Enter')addCustomCard()">
+          <button class="custom-add-btn" onclick="addCustomCard()">+ Add</button>
+        </div>
+        <div class="custom-list" id="custom-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ GRADE CALCULATOR PAGE ════════════ -->
+<div id="page-grades" class="page">
+  <nav class="nav">
+    <button class="nav-back" onclick="goTo('home')">← Back</button>
+    <div class="nav-title">📊 Grade Calculator</div>
+    <div class="nav-user"><div class="nav-avatar">BH</div></div>
+  </nav>
+  <div class="inner-content">
+    <div class="inner-header">
+      <h2>Grade Calculator</h2>
+      <p>Weighted average. Enter each component, its score, and weight.</p>
+    </div>
+    <div class="grade-wrap">
+      <div class="grade-table" id="grade-table">
+        <div class="grade-row grade-row-header">
+          <div class="grade-cell">Component</div>
+          <div class="grade-cell">Score</div>
+          <div class="grade-cell">Weight %</div>
+          <div class="grade-cell"></div>
+        </div>
+      </div>
+      <button class="grade-add-btn" onclick="addGradeRow()">+ Add Component</button>
+      <div class="grade-result" id="grade-result">
+        <div class="grade-big" id="grade-big" style="color:var(--accent3)">—</div>
+        <div>
+          <div class="grade-remark" id="grade-remark">Add components above</div>
+          <div class="grade-remark-sub" id="grade-remark-sub">Your weighted average will appear here</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ DECISION PAGE ════════════ -->
+<div id="page-decision" class="page">
+  <nav class="nav">
+    <button class="nav-back" onclick="goTo('home')">← Back</button>
+    <div class="nav-title">🪙 Coin Flip & Yes/No</div>
+    <div class="nav-user"><div class="nav-avatar">BH</div></div>
+  </nav>
+  <div class="inner-content">
+    <div class="inner-header">
+      <h2>Make a Decision</h2>
+      <p>Let fate decide when the barkada can't agree.</p>
+    </div>
+    <div class="decision-wrap">
+      <div class="decision-tabs">
+        <button class="decision-tab active" onclick="switchDecision('coin',this)">🪙 Coin Flip</button>
+        <button class="decision-tab" onclick="switchDecision('yesno',this)">✅ Yes or No</button>
+        <button class="decision-tab" onclick="switchDecision('number',this)">🔢 Random Number</button>
+      </div>
+      <div class="decision-panel active" id="panel-coin">
+        <div class="coin" id="coin" onclick="flipCoin()">
+          <div class="coin-face coin-heads">HEADS</div>
+          <div class="coin-face coin-tails">TAILS</div>
+        </div>
+        <div class="coin-result" id="coin-result">Click the coin to flip!</div>
+        <button class="pick-btn" style="background:var(--accent);color:#0d0d0f" onclick="flipCoin()">Flip!</button>
+      </div>
+      <div class="decision-panel" id="panel-yesno">
+        <div class="yesno-display" id="yesno-display">?</div>
+        <button class="pick-btn" style="background:var(--accent3);color:#0d0d0f" onclick="doYesNo()">Ask!</button>
+      </div>
+      <div class="decision-panel" id="panel-number">
+        <div style="display:flex;gap:12px;align-items:center;width:100%;flex-wrap:wrap">
+          <span style="font-size:0.85rem;color:var(--muted)">From</span>
+          <input class="custom-input" type="number" id="num-min" value="1" style="width:80px">
+          <span style="font-size:0.85rem;color:var(--muted)">to</span>
+          <input class="custom-input" type="number" id="num-max" value="100" style="width:80px">
+        </div>
+        <div class="yesno-display" id="num-display" style="font-size:3rem">?</div>
+        <button class="pick-btn" style="background:var(--accent4);color:#0d0d0f" onclick="doNumber()">Roll!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ GROUPS PAGE ════════════ -->
+<div id="page-groups" class="page">
+  <nav class="nav">
+    <button class="nav-back" onclick="goTo('home')">← Back</button>
+    <div class="nav-title">🔀 Random Groups</div>
+    <div class="nav-user"><div class="nav-avatar">BH</div></div>
+  </nav>
+  <div class="inner-content">
+    <div class="inner-header">
+      <h2>Group Maker</h2>
+      <p>Type your barkada's names, set how many groups, and shake!</p>
+    </div>
+    <div class="groups-wrap">
+      <div class="groups-input-area">
+        <label style="font-size:0.82rem;color:var(--muted)">Names (one per line or comma-separated)</label>
+        <textarea class="groups-textarea" id="groups-names" placeholder="Maria&#10;Juan&#10;Jose&#10;Ana&#10;Carlo&#10;Lea"></textarea>
+        <div class="groups-config">
+          <label>Number of groups:</label>
+          <input type="number" id="groups-count" value="2" min="2" max="20">
+          <button class="groups-btn" onclick="makeGroups()">🔀 Randomize!</button>
+        </div>
+      </div>
+      <div class="groups-result" id="groups-result"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ EXPENSES PAGE ════════════ -->
+<div id="page-expenses" class="page">
+  <nav class="nav">
+    <button class="nav-back" onclick="goTo('home')">← Back</button>
+    <div class="nav-title">💸 Expense Splitter</div>
+    <div class="nav-user"><div class="nav-avatar">BH</div></div>
+  </nav>
+  <div class="inner-content">
+    <div class="inner-header">
+      <h2>Expense Splitter</h2>
+      <p>Track the spending. Split it fairly. No utang drama.</p>
+    </div>
+    <div class="expenses-wrap">
+      <div class="expense-add-form">
+        <label style="font-size:0.82rem;color:var(--muted)">Add an Expense</label>
+        <div class="expense-form-row">
+          <input class="expense-input" id="exp-name" placeholder="e.g. Jollibee, Load, Taxi..." type="text" onkeydown="if(event.key==='Enter')document.getElementById('exp-amount').focus()">
+          <input class="expense-input" id="exp-amount" placeholder="₱ Amount" type="number" min="0" step="0.01" onkeydown="if(event.key==='Enter')addExpense()">
+        </div>
+        <button class="expense-btn" onclick="addExpense()">+ Add</button>
+      </div>
+      <div class="expense-list" id="expense-list">
+        <div class="empty-state">No expenses yet. Add one above!</div>
+      </div>
+      <div class="expense-total">
+        <div>
+          <div class="expense-total-label">Total Spent</div>
+          <div class="expense-total-val" id="expense-total">₱0.00</div>
+        </div>
+      </div>
+      <div class="expense-split">
+        <label>Split Among</label>
+        <div class="expense-split-row">
+          <input class="expense-split-input" type="number" id="split-count" value="2" min="1" oninput="updateSplit()">
+          <span style="font-size:0.85rem;color:var(--muted)">people</span>
+          <div class="expense-per-person" id="per-person">₱0.00 each</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ CALENDAR PAGE ════════════ -->
+<div id="page-calendar" class="page">
+  <nav class="nav">
+    <button class="nav-back" onclick="goTo('home')">← Back</button>
+    <div class="nav-title">📅 Shared Calendar</div>
+    <div class="nav-user"><div class="nav-avatar">BH</div></div>
+  </nav>
+  <div class="inner-content" style="max-width:860px">
+    <div class="inner-header">
+      <h2>Barkada Calendar</h2>
+      <p>Track deadlines, exams, hangouts — everything in one place.</p>
+    </div>
+    <div class="cal-wrap">
+      <div class="cal-nav">
+        <button class="cal-nav-btn" onclick="calMove(-1)">‹</button>
+        <div class="cal-month-label" id="cal-month-label">—</div>
+        <button class="cal-nav-btn" onclick="calMove(1)">›</button>
+      </div>
+      <div class="cal-grid">
+        <div class="cal-days-header">
+          <div class="cal-day-name">Sun</div><div class="cal-day-name">Mon</div>
+          <div class="cal-day-name">Tue</div><div class="cal-day-name">Wed</div>
+          <div class="cal-day-name">Thu</div><div class="cal-day-name">Fri</div>
+          <div class="cal-day-name">Sat</div>
+        </div>
+        <div class="cal-cells" id="cal-cells"></div>
+      </div>
+      <div class="cal-event-form">
+        <h4>Add Event</h4>
+        <div class="cal-form-row">
+          <input class="cal-input" id="cal-event-name" placeholder="Event name (e.g. Finals Exam)">
+          <input class="cal-input" id="cal-event-date" type="date">
+        </div>
+        <input class="cal-input" id="cal-event-note" placeholder="Note (optional)">
+        <div class="cal-color-row">
+          <span style="font-size:0.78rem;color:var(--muted);margin-right:4px">Color:</span>
+          <div class="cal-color-swatch selected" style="background:#f5c842" data-color="#f5c842" onclick="selectCalColor(this)"></div>
+          <div class="cal-color-swatch" style="background:#ff6b6b" data-color="#ff6b6b" onclick="selectCalColor(this)"></div>
+          <div class="cal-color-swatch" style="background:#6bffb8" data-color="#6bffb8" onclick="selectCalColor(this)"></div>
+          <div class="cal-color-swatch" style="background:#6bb5ff" data-color="#6bb5ff" onclick="selectCalColor(this)"></div>
+          <div class="cal-color-swatch" style="background:#c084fc" data-color="#c084fc" onclick="selectCalColor(this)"></div>
+        </div>
+        <button class="cal-add-btn" onclick="addCalEvent()">+ Add to Calendar</button>
+      </div>
+      <div>
+        <div style="font-size:0.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px">Upcoming Events</div>
+        <div class="cal-event-list" id="cal-event-list">
+          <div class="empty-state">No events yet. Add one above!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ WORD BLITZ PAGE ════════════ -->
+<div id="page-wordblitz" class="page">
+  <nav class="nav">
+    <button class="nav-back" onclick="wbStop();goTo('home')">← Back</button>
+    <div class="nav-title">⌨️ Word Blitz</div>
+    <div class="nav-user"><div class="nav-avatar">BH</div></div>
+  </nav>
+  <div class="inner-content" style="max-width:760px;padding-top:28px">
+    <div class="wb-hud">
+      <div class="wb-stat"><div class="wb-stat-val" id="wb-score">0</div><div class="wb-stat-lbl">Score</div></div>
+      <div class="wb-stat"><div class="wb-stat-val" id="wb-level">1</div><div class="wb-stat-lbl">Level</div></div>
+      <div class="wb-stat"><div class="wb-stat-val" id="wb-combo">x1</div><div class="wb-stat-lbl">Combo</div></div>
+      <div class="wb-stat"><div class="wb-lives" id="wb-lives">❤️❤️❤️</div><div class="wb-stat-lbl">Lives</div></div>
+    </div>
+    <div class="wb-arena" id="wb-arena">
+      <div class="wb-stars" id="wb-stars"></div>
+      <div class="wb-overlay" id="wb-overlay">
+        <h2 style="color:var(--accent3)">⌨️ Word Blitz</h2>
+        <p>Type the falling words before they reach the bottom!</p>
+        <p style="font-size:0.8rem;color:var(--border)">Longer words = more points. Build combos for multipliers!</p>
+        <button class="wb-btn" onclick="wbStart()">Start Game</button>
+      </div>
+    </div>
+    <div class="wb-input-row">
+      <input class="wb-input" id="wb-input" placeholder="Type here..." autocomplete="off" autocorrect="off" spellcheck="false" oninput="wbCheckInput()" disabled>
+      <div style="font-size:0.78rem;color:var(--muted);white-space:nowrap">Best: <span id="wb-best" style="color:var(--accent3);font-weight:700">0</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ MEMORY MATCH PAGE ════════════ -->
+<div id="page-memory" class="page">
+  <nav class="nav">
+    <button class="nav-back" onclick="memStop();goTo('home')">← Back</button>
+    <div class="nav-title">🧠 Memory Match</div>
+    <div class="nav-user"><div class="nav-avatar">BH</div></div>
+  </nav>
+  <div class="inner-content">
+    <div class="inner-header">
+      <h2>Memory Match</h2>
+      <p>Find all the pairs! Challenge your barkada to beat your moves count.</p>
+    </div>
+    <div class="mem-wrap">
+      <div class="mem-diff-tabs">
+        <button class="mem-diff-tab active" onclick="setMemDiff(4,this)">Easy (4×4)</button>
+        <button class="mem-diff-tab" onclick="setMemDiff(5,this)">Hard (5×4)</button>
+      </div>
+      <div class="mem-hud">
+        <div class="mem-stat"><div class="mem-stat-val" id="mem-moves">0</div><div class="mem-stat-lbl">Moves</div></div>
+        <div class="mem-stat"><div class="mem-stat-val" id="mem-pairs">0</div><div class="mem-stat-lbl">Pairs Found</div></div>
+        <div class="mem-stat"><div class="mem-stat-val" id="mem-time">0:00</div><div class="mem-stat-lbl">Time</div></div>
+        <button class="mem-restart-btn" onclick="initMemory()">🔀 Shuffle</button>
+      </div>
+      <div class="mem-board" id="mem-board"></div>
+      <div class="mem-win-msg" id="mem-win">
+        <h3>🎉 Sarap! You won!</h3>
+        <p id="mem-win-text">—</p>
+        <button class="mem-restart-btn" style="margin-top:12px" onclick="initMemory()">Play Again</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ JS FILES ════════════ -->
+<script src="js/auth.js"></script>
+<script src="js/router.js"></script>
+<script src="js/timer.js"></script>
+<script src="js/flowtime.js"></script>
+<script src="js/cards.js"></script>
+<script src="js/grades.js"></script>
+<script src="js/decision.js"></script>
+<script src="js/groups.js"></script>
+<script src="js/expenses.js"></script>
+<script src="js/calendar.js"></script>
+<script src="js/wordblitz.js"></script>
+<script src="js/memory.js"></script>
+
+</body>
+</html>
